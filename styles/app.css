@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font: 13px Helvetica, Arial;
+  padding-top: 55px;
+}
+#chatbox {
+  background: #292828;
+  padding: 2px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+#chatbox input {
+  border: 10px;
+  padding: 5px;
+  font-size: 1.2em;
+  width: 100%;
+  margin-right: .5%;
+}
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#messages li {
+  padding: 5px 10px;
+}
+#messages li:nth-child(odd) {
+  background: #eee;
+}

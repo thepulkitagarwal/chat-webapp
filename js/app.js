@@ -1,5 +1,5 @@
 var socket = io();
-$('#messages').append($('<li>').text('Welcome to this chat app! Type at the bottom of your screen!'));
+$('#messages').append($('<li>').text('Welcome to this chat app! Type at the bottom of your screen. Press Enter to send.'));
 //-------------------------------------------------
 // Set the nick
 var nick = localStorage.getItem('nick');
@@ -19,12 +19,23 @@ socket.on('set nick', function(nick){});
 //-------------------------------------------------
 // chatbox
 $('#chatbox').submit(function(){
-	socket.emit('chat message', $('#m').val());
-	$('#m').val('');
+	if(nick) {
+		var msg = {
+			'nick': nick,
+			'text': $('#m').val()
+		};
+		socket.emit('chat message', msg);
+		$('#m').val('');
+	}
+	else {
+		alert("Enter Nick First!");
+	}
 	return false;
 });
 
 socket.on('chat message', function(msg){
-	$('#messages').append($('<li>').text(msg));
+	var displayText = msg.text;
+	if(msg.nick) displayText = msg.nick + ': ' + msg.text;
+	$('#messages').append($('<li>').text(displayText));
 });
 //-------------------------------------------------

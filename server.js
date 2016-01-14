@@ -24,11 +24,11 @@ app.get('/styles/bootstrap.min.css', function(req, res){
 });
 
 io.on('connection', function(socket){
-	console.log('a user connected');
+	// console.log('a user connected');
 	// io.emit('chat message', 'Welcome to this chat app! Type at the bottom of your screen!');
 
 	socket.on('disconnect', function(){
-		console.log('user disconnected');
+		// console.log('user disconnected');
 		io.emit('chat message', 'disconnected');
 	});
 
@@ -37,7 +37,7 @@ io.on('connection', function(socket){
 	});
 
 	socket.on('set nick', function(nick){
-		io.emit('chat message', '[----- ' + nick + ' is online -----]');
+		io.emit('chat message', {'text':'[----- ' + nick + ' is online -----]'});
 	});
 });
 

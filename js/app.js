@@ -40,9 +40,17 @@ socket.on('chat message', function(msg){
 		var date = new Date(msg.timestamp);
 		displayText = '[' + getTimeFromDate(date) + '] '+ displayText;
 	}
-	// alert(displayText);
 	$('#messages').append($('<li>').text(displayText));
+	scrollToBottom();
 });
+
+function scrollToBottom(radius){
+	radius = radius || 100;
+
+	if($(window).scrollTop() + $(window).height() > $(document).height() - radius) {
+		$(document).scrollTop($(document).height());
+	}
+}
 //-------------------------------------------------
 // returns a string from a given date
 function getTimeFromDate(date) {

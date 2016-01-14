@@ -20,6 +20,13 @@ gulp.task('bootstrap', function() {
 	.pipe(gulp.dest('./js/'));
 });
 
-gulp.task('default', ['bootstrap', 'less'], function(){
+gulp.task('jquery', function() {
+	var baseSRC = './node_modules/jquery/dist';
+
+	gulp.src(baseSRC + '/*.js')
+	.pipe(gulp.dest('./js/'));
+});
+
+gulp.task('default', ['bootstrap', 'jquery', 'less'], function(){
 	gulp.watch('./styles/*.less', ['less']);
 });

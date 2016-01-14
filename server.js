@@ -23,6 +23,10 @@ app.get('/styles/bootstrap.min.css', function(req, res){
 	res.sendFile(__dirname + '/styles/bootstrap.min.css');
 });
 
+app.get('/js/jquery.min.js', function(req, res){
+	res.sendFile(__dirname + '/js/jquery.min.js');
+});
+
 io.on('connection', function(socket){
 	// console.log('a user connected');
 	// io.emit('chat message', 'Welcome to this chat app! Type at the bottom of your screen!');

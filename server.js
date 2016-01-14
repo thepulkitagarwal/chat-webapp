@@ -33,11 +33,16 @@ io.on('connection', function(socket){
 	});
 
 	socket.on('chat message', function(msg){
+		msg.timestamp = new Date();
 		io.emit('chat message', msg);
 	});
 
 	socket.on('set nick', function(nick){
-		io.emit('chat message', {'text':'[----- ' + nick + ' is online -----]'});
+		var timestamp = new Date();
+		io.emit('chat message', {
+			'text': nick + ' is online',
+			'timestamp': timestamp
+		});
 	});
 });
 

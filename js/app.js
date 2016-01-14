@@ -36,6 +36,12 @@ $('#chatbox').submit(function(){
 socket.on('chat message', function(msg){
 	var displayText = msg.text;
 	if(msg.nick) displayText = msg.nick + ': ' + msg.text;
+	 if(msg.timestamp) {
+	 	var date = new Date(msg.timestamp);
+	 	var time = '' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+	 	displayText = '[' + time + '] '+ displayText;
+	}
+	// alert(displayText);
 	$('#messages').append($('<li>').text(displayText));
 });
 //-------------------------------------------------

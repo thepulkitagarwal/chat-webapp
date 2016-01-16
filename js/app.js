@@ -25,6 +25,7 @@ $('#chatbox').submit(function(){
 			'text': $('#m').val()
 		};
 		socket.emit('chat message', msg);
+		stopOnSubmitText(); // For voice recognition
 		$('#m').val('');
 	}
 	else {
@@ -62,3 +63,71 @@ function getTimeFromDate(date) {
 	var s = addZero(date.getSeconds());
 	return h + ":" + m + ":" + s;
 }
+//-------------------------------------------------
+
+var finalTextMessage = '';
+var isRecognizing = false;
+ 
+if ('webkitSpeechRecognition' in window) {
+ 
+  var recognition = new webkitSpeechRecognition();
+ 
+  recognition.continuous = true;
+  recognition.interimResults = true;
+ 
+  recognition.onstart = function() {
+    isRecognizing = true;
+  };
+ 
+  recognition.onerror = function(event) {
+    console.log(event.error);
+  };
+ 
+  recognition.onend = function() {
+    isRecognizing = false;
+  };
+ 
+  recognition.onresult = function(event) {
+    var interimText = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        finalTextMessage += event.results[i][0].transcript;
+      } else {
+        interimText += event.results[i][0].transcript;
+      }
+    }
+    finalTextMessage = capitalize(finalTextMessage);
+    document.getElementById('m').value = linebreak(finalTextMessage) + linebreak(interimText);
+    
+  };
+}
+ 
+var two_line = /\n\n/g;
+var one_line = /\n/g;
+function linebreak(s) {
+  return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+}
+ 
+function capitalize(s) {
+  var firstChar = /\S/;
+  return s.replace(firstChar, function(m) { return m.toUpperCase(); });
+}
+ 
+function toggleDictation(event) {
+  if (isRecognizing) {
+    recognition.stop();
+    return;
+  }
+  finalTextMessage = '';
+  recognition.lang = 'en-IN';
+  $('#m').focus();
+  recognition.start();
+  // alert('a');
+}
+
+function stopOnSubmitText() {
+	recognition.stop();
+	finalTextMessage = '';
+}
+
+$('#mic').click(toggleDictation);

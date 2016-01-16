@@ -31,8 +31,7 @@ io.on('connection', function(socket){
 	// console.log('a user connected');
 	// io.emit('chat message', 'Welcome to this chat app! Type at the bottom of your screen!');
 
-	socket.on('disconnect', function(){
-
+	socket.on('disconnect', function(nick){
 	});
 
 	socket.on('chat message', function(msg){

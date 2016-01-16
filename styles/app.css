@@ -8,19 +8,27 @@ body {
   padding-top: 55px;
   padding-bottom: 35px;
 }
-#chatbox {
+#bottom-div {
   background: #292828;
   padding: 2px;
   position: fixed;
   bottom: 0;
   width: 100%;
 }
-#chatbox input {
+#bottom-div #chatbox {
+  display: inline;
+}
+#bottom-div #chatbox input {
   border: 10px;
   padding: 5px;
   font-size: 1.2em;
-  width: 100%;
+  width: 90%;
   margin-right: .5%;
+}
+#bottom-div #mic {
+  height: 100%;
+  float: right;
+  width: 9%;
 }
 #messages {
   list-style-type: none;

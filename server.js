@@ -1,6 +1,19 @@
 var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var https = require('https');
+var io = require('socket.io')();
+var fs = require('fs');
+
+const credentials = {
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem')
+};
+
+var httpsServer = https.createServer(credentials, app);
+httpsServer.listen(4000, function() {
+	console.log('listening on *:4000');
+});
+
+io.listen(httpsServer);
 
 app.get('/', function(req, res){
 	// res.send('<h1>Hello World</h1>');
@@ -27,11 +40,16 @@ app.get('/js/jquery.min.js', function(req, res){
 	res.sendFile(__dirname + '/js/jquery.min.js');
 });
 
+// app.get('/socket.io/socket.io.js', function(req, res) {
+// 	res.sendFile(__dirname + '/node_modules/socket.io-client/socket.io.js');
+// });
+
 io.on('connection', function(socket){
 	// console.log('a user connected');
 	// io.emit('chat message', 'Welcome to this chat app! Type at the bottom of your screen!');
 
-	socket.on('disconnect', function(nick){
+	socket.on('disconnect', function(){
+
 	});
 
 	socket.on('chat message', function(msg){
@@ -48,6 +66,3 @@ io.on('connection', function(socket){
 	});
 });
 
-http.listen(4000, function(){
-	console.log('listening on *:4000');
-});
